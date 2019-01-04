@@ -58,7 +58,7 @@ func NewReadability(url string) (*TReadability, error) {
 	v.url, _ = nurl.Parse(url)
 	v.candidates = make(map[string]TCandidateItem, 0)
 
-	v.html = replaceBrs.ReplaceAllString(v.html, "</p><p>")
+	// v.html = replaceBrs.ReplaceAllString(v.html, "</p><p>")
 	//v.html = replaceFonts.ReplaceAllString(v.html, `<\g<1>span>`)
 
 	if v.html == "" {
@@ -273,27 +273,30 @@ func (self *TReadability) cleanArticle(content *goquery.Selection) string {
 		return ""
 	}
 	self.cleanStyle(content)
-	self.clean(content, "h1")
+	// self.clean(content, "h1")
 	self.clean(content, "object")
 	self.cleanConditionally(content, "form")
-	if content.Find("h2").Length() == 1 {
-		self.clean(content, "h2")
-	}
-	if content.Find("h3").Length() == 1 {
-		self.clean(content, "h3")
-	}
+	// if content.Find("h2").Length() == 1 {
+	// 	self.clean(content, "h2")
+	// }
+	// if content.Find("h3").Length() == 1 {
+	// 	self.clean(content, "h3")
+	// }
 	self.clean(content, "iframe")
-	self.cleanConditionally(content, "table")
-	self.cleanConditionally(content, "ul")
-	self.cleanConditionally(content, "div")
+	// self.cleanConditionally(content, "table")
+	// self.cleanConditionally(content, "ul")
+	// self.cleanConditionally(content, "div")
+
 	self.fixImagesPath(content)
 
 	html, err := content.Html()
 	if err != nil {
 		return ""
 	}
+
 	html = ghtml.UnescapeString(html)
 	return killBreaks.ReplaceAllString(html, "<br />")
+	// return html
 }
 
 func (self *TReadability) getTagName(node *goquery.Selection) string {
